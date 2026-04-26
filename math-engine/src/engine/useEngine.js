@@ -17,8 +17,8 @@ function useEngine(problems){
             setScore(prev => prev + 10)
             setFeedback("correct")
 
-            const isLastStep = stepIndex === currentProblem.steps.lengt - 1
-            const isLastProblem = problemIndex === problems.lengt - 1
+            const isLastStep = stepIndex === currentProblem.steps.length - 1
+            const isLastProblem = problemIndex === problems.length - 1
 
             if(isLastStep && isLastProblem){
                 setTimeout(() => {

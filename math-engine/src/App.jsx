@@ -35,7 +35,7 @@ function App() {
     <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
 
       {/* Score */}
-      <p>Score: {score}</p>
+      <p className="text-3x1 font-bold text-blue-500">Score: {score}</p>
 
       {/* Problem */}
       <h2>{currentProblem.question}</h2>
