@@ -1,6 +1,11 @@
 import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import useEngine from "./engine/useEngine"
 import problems from "./modules/derivatives/problems"
+import ScoreBar from "./components/ScoreBar"
+import QuestionDisplay from "./components/QuestionDisplay"
+import AnswerInput from "./components/AnswerInput"
+import MathBackground from "./components/MathBackground"
 
 function App() {
   const {
@@ -15,57 +20,115 @@ function App() {
   } = useEngine(problems)
 
   const [inputValue, setInputValue] = useState("")
+  const [scoreDelta, setScoreDelta] = useState(null)
 
   function handleSubmit() {
     if (!inputValue.trim()) return
+
+    const correct =
+      inputValue.trim().toLowerCase() ===
+      currentStep.answer.trim().toLowerCase()
+
+    setScoreDelta(correct ? 10 : -5)
+    setTimeout(() => setScoreDelta(null), 1000)
+
     submitAnswer(inputValue)
-    setInputValue("")
+    if (correct) setInputValue("")
   }
 
   if (isComplete) {
     return (
-      <div style={{ padding: "2rem" }}>
-        <h1>You finished! 🎉</h1>
-        <p>Final score: {score}</p>
+      <div style={{
+        width: "100vw",
+        height: "100vh",
+        background: "#0F172A",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}>
+        <div style={{ textAlign: "center", color: "white" }}>
+          <h1 style={{ fontSize: "2.5rem", fontWeight: "bold", marginBottom: "1rem" }}>
+            You finished! 🎉
+          </h1>
+          <p style={{ fontSize: "1.25rem" }}>Final score: {score}</p>
+        </div>
       </div>
     )
   }
 
   return (
-    <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
+    <div style={{
+      width: "100vw",
+      height: "100vh",
+      background: "#0F172A",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "24px",
+      position: "relative"
+    }}>
 
-      {/* Score */}
-      <p className="text-3x1 font-bold text-blue-500">Score: {score}</p>
+      <MathBackground/>
 
-      {/* Problem */}
-      <h2>{currentProblem.question}</h2>
-      <p>Step {stepIndex + 1} of {currentProblem.steps.length}</p>
+      <motion.div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          borderRadius: "24px",
+          padding: "46px",
+          background: "rgba(30,41,59,0.08)",
+          backdropFilter: "blur(7px)",
+          border: "1px solid rgba(255,255,255,0.1)",
+          boxShadow: "0 25px 50px rgba(0,0,0,0.4)",
+        }}
+      >
+        <ScoreBar
+          score={score}
+          problemIndex={problems.indexOf(currentProblem)}
+          stepIndex={stepIndex}
+          totalSteps={currentProblem.steps.length}
+          scoreDelta={scoreDelta}
+        />
 
-      {/* Current Step */}
-      <p>{currentStep.prompt}</p>
+        <QuestionDisplay
+          question={currentProblem.question}
+          prompt={currentStep.prompt}
+        />
 
-      {/* Input */}
-      <input
-        type="text"
-        value={inputValue}
-        onChange={e => setInputValue(e.target.value)}
-        onKeyDown={e => e.key === "Enter" && handleSubmit()}
-        placeholder="Your answer..."
-      />
-      <button onClick={handleSubmit}>Submit</button>
+        <AnswerInput
+          value={inputValue}
+          onChange={setInputValue}
+          feedback={feedback}
+          hint={currentStep.hint}
+          onSubmit={handleSubmit}
+        />
 
-      {/* Feedback */}
-      {feedback === "correct" && (
-        <p style={{ color: "green" }}>Correct! +10 points</p>
-      )}
-      {feedback === "incorrect" && (
-        <div>
-          <p style={{ color: "red" }}>Incorrect. -5 points</p>
-          <p>Hint: {currentStep.hint}</p>
-          <button onClick={dismissFeedback}>Try again</button>
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "24px"
+        }}>
+          <button
+            onClick={handleSubmit}
+            style={{
+              background: "#3B82F6",
+              color: "white",
+              border: "none",
+              borderRadius: "12px",
+              padding: "10px 32px",
+              fontSize: "1rem",
+              fontWeight: "600",
+              cursor: "pointer",
+              transition: "background 0.2s"
+            }}
+            onMouseEnter={e => e.target.style.background = "#60A5FA"}
+            onMouseLeave={e => e.target.style.background = "#3B82F6"}
+          >
+            Submit
+          </button>
         </div>
-      )}
-
+      </motion.div>
     </div>
   )
 }
