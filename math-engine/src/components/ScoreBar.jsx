@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion"
 
-function ScoreBar({ score, problemIndex, stepIndex, totalSteps, scoreDelta }) {
+function ScoreBar({ score, problemIndex, stepIndex, totalSteps, scoreDelta, isPractiveMode }) {
   return (
     <div style={{
       display: "flex",
@@ -63,6 +63,17 @@ function ScoreBar({ score, problemIndex, stepIndex, totalSteps, scoreDelta }) {
         flexDirection: "column",
         alignItems: "center"
       }}>
+      {isPractiveMode &&(
+        <span style={{
+            fontSize: "0.7rem",
+            fontWeight: "700",
+            color: "#FACC15",
+            letterSpacing: "0.1rem",
+            marginBottom: "2px"
+        }}>
+            ⚔️ PRACTICE MODE
+        </span>
+      )}
         <span style={{
           fontSize: "1.1rem",
           fontWeight: "700",
