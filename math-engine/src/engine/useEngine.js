@@ -59,6 +59,10 @@ function useEngine(problems) {
   function advanceAfterCorrect() {
     const isLastStep = stepIndex === currentProblem.steps.length - 1
 
+    console.log("isLastStep:", isLastStep)
+    console.log("practiceIndex:", practiceIndex, "wrongProblems.length:", wrongProblems.length)
+    console.log("practiceAttemptCount:", practiceAttemptCount)
+
     if (isPracticeMode) {
       const isLastPractice = practiceIndex === wrongProblems.length - 1
 
@@ -148,7 +152,7 @@ function useEngine(problems) {
       setScore(prev => Math.max(0, prev - deduction))
       setFeedback("incorrect")
 
-      if (newAttemptCount >= 3 && !isPracticeMode) {
+      if (newAttemptCount >= 3) {
         addToWrongProblems(currentProblem)
       }
     }

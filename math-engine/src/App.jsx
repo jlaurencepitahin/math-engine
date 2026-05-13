@@ -35,7 +35,7 @@ function App() {
   useEffect(() => {
     if (!isComplete || screen !== "game") return
     if (isComplete === "complete") setScreen("complete")
-    else if (isComplete === "clean") setScreen("menu")
+    else if (isComplete === "clean") setScreen("practiceCleared")
     else if (isComplete === "retry") setScreen("retry")
     else if (isComplete === "cooldown") setScreen("cooldown")
   }, [isComplete])
@@ -243,7 +243,177 @@ function App() {
     )
   }
 
-  if (!currentProblem || !currentStep) return null
+  if (screen === "practiceCleared") {
+  return (
+    <div style={{
+      width: "100vw",
+      height: "100vh",
+      background: "#0F172A",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "24px",
+      position: "relative"
+    }}>
+      <MathBackground />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        style={{
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          maxWidth: "480px",
+          borderRadius: "24px",
+          padding: "48px 40px",
+          background: "rgba(30, 41, 59, 0.5)",
+          backdropFilter: "blur(20px)",
+          border: "1px solid rgba(34, 197, 94, 0.3)",
+          boxShadow: "0 25px 50px rgba(0,0,0,0.4)",
+          textAlign: "center"
+        }}
+      >
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.2, duration: 0.5, type: "spring", stiffness: 200 }}
+          style={{ fontSize: "3.5rem", marginBottom: "16px" }}
+        >
+          ✅
+        </motion.div>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          style={{
+            fontSize: "1.8rem",
+            fontWeight: "700",
+            color: "#22C55E",
+            marginBottom: "8px"
+          }}
+        >
+          {Array.isArray(wrongProblems) && wrongProblems.length === 0
+            ? "Queue Cleared!"
+            : "Problem Cleared!"}
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          style={{
+            fontSize: "0.95rem",
+            color: "#777777",
+            marginBottom: "32px",
+            lineHeight: 1.6
+          }}
+        >
+          {Array.isArray(wrongProblems) && wrongProblems.length === 0
+            ? "All caught up! Your practice queue is empty."
+            : `${wrongProblems.length} problem${wrongProblems.length > 1 ? "s" : ""} remaining in queue.`}
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          style={{
+            background: "rgba(34, 197, 94, 0.1)",
+            border: "1px solid rgba(34, 197, 94, 0.2)",
+            borderRadius: "12px",
+            padding: "12px 24px",
+            marginBottom: "32px",
+            display: "inline-block"
+          }}
+        >
+          <p style={{
+            fontSize: "0.8rem",
+            color: "#777777",
+            margin: "0 0 4px 0"
+          }}>Score</p>
+          <p style={{
+            fontSize: "2rem",
+            fontWeight: "700",
+            color: "#FACC15",
+            margin: 0,
+            fontFamily: "'Fira Code', monospace"
+          }}>
+            {score}
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          style={{
+            display: "flex",
+            gap: "12px",
+            justifyContent: "center"
+          }}
+        >
+          <button
+            onClick={handleReturnToMenu}
+            style={{
+              background: "rgba(255,255,255,0.08)",
+              color: "white",
+              border: "1px solid rgba(255,255,255,0.15)",
+              borderRadius: "12px",
+              padding: "12px 28px",
+              fontSize: "0.95rem",
+              fontWeight: "600",
+              cursor: "pointer",
+              transition: "background 0.2s"
+            }}
+            onMouseEnter={e => e.target.style.background = "rgba(255,255,255,0.15)"}
+            onMouseLeave={e => e.target.style.background = "rgba(255,255,255,0.08)"}
+          >
+            Menu
+          </button>
+
+          {Array.isArray(wrongProblems) && wrongProblems.length > 0 && (
+            <button
+              onClick={handleSelectPractice}
+              style={{
+                background: "#22C55E",
+                color: "white",
+                border: "none",
+                borderRadius: "12px",
+                padding: "12px 28px",
+                fontSize: "0.95rem",
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "background 0.2s"
+              }}
+              onMouseEnter={e => e.target.style.background = "#16A34A"}
+              onMouseLeave={e => e.target.style.background = "#22C55E"}
+            >
+              Next Problem
+            </button>
+          )}
+        </motion.div>
+      </motion.div>
+    </div>
+  )
+}
+
+   // After all screen checks, before the game screen return
+if (!currentProblem || !currentStep) {
+  return (
+    <div style={{
+      width: "100vw",
+      height: "100vh",
+      background: "#0F172A",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }}>
+      <MathBackground />
+    </div>
+  )
+}
 
   return (
     <div style={{
