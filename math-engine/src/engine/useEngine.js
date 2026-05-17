@@ -14,6 +14,7 @@ function useEngine(problems) {
   const [practiceAttemptCount, setPracticeAttemptCount] = useState(0)
   const [practiceRetryCount, setPracticeRetryCount] = useState(0)
   const [cooldownEndTime, setCooldownEndTime] = useState(null)
+  const [completedPracticeIds, setCompletedPracticeIds] = useState([])
   const [wrongProblems, setWrongProblems] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY)
@@ -29,8 +30,12 @@ function useEngine(problems) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(wrongProblems))
   }, [wrongProblems])
 
+  const activePracticeProblems = wrongProblems.filter(
+    p => !completedPracticeIds.includes(p.id)
+  )
+
   const currentProblem = isPracticeMode
-    ? wrongProblems[practiceIndex]
+    ? activePracticeProblems[0]
     : problems[problemIndex]
 
   const currentStep = currentProblem ?currentProblem.steps[stepIndex] : null
@@ -43,8 +48,8 @@ function useEngine(problems) {
     })
   }
 
-  function removeFromWrongProblems(problem) {
-    setWrongProblems(prev => prev.filter(p => p.id !== problem.id))
+  function markPracticeComplete(problem) {
+    setCompletedPracticeIds(prev => [...prev, problem.id])
   }
 
   function triggerCooldown() {
@@ -64,8 +69,6 @@ function useEngine(problems) {
     console.log("practiceAttemptCount:", practiceAttemptCount)
 
     if (isPracticeMode) {
-      const isLastPractice = practiceIndex === wrongProblems.length - 1
-
       if (isLastStep) {
         const hadTooManyMistakes = practiceAttemptCount >= 3
 
@@ -80,13 +83,14 @@ function useEngine(problems) {
             setTimeout(() => setIsComplete("retry"), 1000)
           }
         } else {
-          removeFromWrongProblems(currentProblem)
+          const wasLastPractice = practiceIndex ===activePracticeProblems.length - 1        
 
-          if (isLastPractice) {
+          markPracticeComplete(currentProblem)
+
+          if (wasLastPractice) {
             setTimeout(() => setIsComplete("clean"), 1000)
           } else {
             setTimeout(() => {
-              setPracticeIndex(prev => prev + 1)
               setStepIndex(0)
               setAttemptCount(0)
               setPracticeAttemptCount(0)
@@ -163,6 +167,7 @@ function useEngine(problems) {
   }
 
   function startPracticeMode() {
+    setCompletedPracticeIds([])
     setIsPracticeMode(true)
     setPracticeIndex(0)
     setStepIndex(0)
@@ -184,6 +189,10 @@ function useEngine(problems) {
   }
 
   function returnToMenu() {
+    setWrongProblems(prev =>
+      prev.filter(p => !completedPracticeIds.includes(p.id))
+    )
+    setCompletedPracticeIds([])
     setProblemIndex(0)
     setStepIndex(0)
     setScore(0)
@@ -196,6 +205,7 @@ function useEngine(problems) {
   }
 
   function resetGame() {
+    setCompletedPracticeIds([])
     setProblemIndex(0)
     setStepIndex(0)
     setScore(0)
@@ -223,6 +233,7 @@ function useEngine(problems) {
     practiceAttemptCount,
     practiceRetryCount,
     cooldownEndTime,
+    completedPracticeIds,
     triggerCooldown,
     clearCooldown,
     submitAnswer,
