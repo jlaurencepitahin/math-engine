@@ -1,8 +1,11 @@
 import { motion } from "framer-motion"
+import { useState } from "react"
 import ModeCard from "./ModeCard"
 import MathBackground from "./MathBackground"
+import BreakWarningPopup from "./BreakWarningPopup"
 
-function MenuScreen({ onSelectNormal, onSelectPractice, wrongProblemsCount }) {
+function MenuScreen({ onSelectNormal, onSelectPractice, wrongProblemsCount, cooldownEndTime }) {
+  const [showBreakWarning, setShowBreakWarning] = useState(false)
   const hasPracticeProblems = wrongProblemsCount > 0
 
   return (
@@ -68,7 +71,13 @@ function MenuScreen({ onSelectNormal, onSelectPractice, wrongProblemsCount }) {
           subtitle="Derivatives — Power Rule"
           description="Work through all problems step by step. Wrong answers are tracked and sent to Practice Mode."
           buttonLabel="Play"
-          onClick={onSelectNormal}
+          onClick={()=> {
+            if (cooldownEndTime && cooldownEndTime > Date.now()){
+              setShowBreakWarning(true)
+            } else{
+              onSelectNormal()
+            }
+          }}
         />
 
         <ModeCard
@@ -85,6 +94,16 @@ function MenuScreen({ onSelectNormal, onSelectPractice, wrongProblemsCount }) {
           disabled={!hasPracticeProblems}
         />
       </motion.div>
+      {/* Break warning popup*/}
+      {showBreakWarning && (
+        <BreakWarningPopup
+          onContinue={() => {
+            setShowBreakWarning(false)
+            onSelectNormal()
+          }}
+          onBack={() => setShowBreakWarning(false)}
+          />
+      )}
     </div>
   )
 }

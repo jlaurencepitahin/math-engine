@@ -9,6 +9,7 @@ import MathBackground from "./components/MathBackground"
 import MenuScreen from "./components/MenuScreen"
 import PracticeResultScreen from "./components/PracticeResultScreen"
 import ExitConfirmPopup from "./components/ExitConfirmPopup"
+import CooldownScreen from "./components/CooldownScreen"
 
 function App() {
   const [screen, setScreen] = useState("menu")
@@ -26,6 +27,8 @@ function App() {
     attemptCount,
     wrongProblems,
     isPracticeMode,
+    cooldownEndTime,
+    clearCooldown,
     submitAnswer,
     returnToMenu,
     startNormalMode,
@@ -93,6 +96,7 @@ function App() {
 
   function handleQuit() {
     setShowExitPopup(false)
+    setInputValue("")
     returnToMenu()
     setScreen("menu")
   }
@@ -103,6 +107,7 @@ function App() {
         onSelectNormal={handleSelectNormal}
         onSelectPractice={handleSelectPractice}
         wrongProblemsCount={Array.isArray(wrongProblems) ? wrongProblems.length : 0}
+        cooldownEndTime={cooldownEndTime}
       />
     )
   }
@@ -412,6 +417,15 @@ function App() {
     )
   }
 
+  if (screen === "cooldown") {
+    return(
+      <CooldownScreen
+        cooldownEndTime={cooldownEndTime}
+        onReturnToMenu={handleReturnToMenu}
+        clearCooldown={clearCooldown}/>
+    )
+  }
+
   if (!currentProblem || !currentStep) {
     return (
       <div style={{
@@ -517,7 +531,70 @@ function App() {
           feedback={feedback}
           hint={currentStep.hint}
           onSubmit={handleSubmit}
+          attemptCount={attemptCount}
         />
+        {attemptCount >= 3 && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              textAlign: "center",
+              marginTop: "16px",
+              padding: "12px 24px",
+              background: "rgba(239, 68, 68, 0.1)",
+              border: "1px solid rgba(239, 68, 68, 0.2)",
+              borderRadius: "12px",
+              color: "#EF4444",
+              fontSize: "0.9rem",
+              fontWeight: "500"
+            }}
+          >
+            ❌ Maximum attempts reached. This problem has been added to your practice queue.
+          </motion.div>
+        )}
+        {attemptCount >= 3 && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              textAlign: "center",
+              marginTop: "16px",
+              padding: "12px 24px",
+              background: "rgba(239, 68, 68, 0.1)",
+              border: "1px solid rgba(239, 68, 68, 0.2)",
+              borderRadius: "12px",
+            }}
+          >
+            <p style={{
+              color: "#EF4444",
+              fontSize: "0.9rem",
+              fontWeight: "500",
+              margin: "0 0 12px 0"
+            }}>
+              ❌ Maximum attempts reached. This problem has been added to your practice queue.
+            </p>
+            <button
+              onClick={handleQuit}
+              style={{
+                background: "rgba(239, 68, 68, 0.15)",
+                color: "#EF4444",
+                border: "1px solid rgba(239, 68, 68, 0.3)",
+                borderRadius: "10px",
+                padding: "8px 24px",
+                fontSize: "0.85rem",
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "all 0.2s"
+              }}
+              onMouseEnter={e => e.target.style.background = "rgba(239, 68, 68, 0.25)"}
+              onMouseLeave={e => e.target.style.background = "rgba(239, 68, 68, 0.15)"}
+            >
+              Quit Problem
+            </button>
+          </motion.div>
+        )}
         <div style={{
           display: "flex",
           justifyContent: "center",
@@ -525,19 +602,25 @@ function App() {
         }}>
           <button
             onClick={handleSubmit}
+            disabled={attemptCount >= 3}
             style={{
-              background: "#3B82F6",
+              background: attemptCount >= 3 ? "#444" : "#3B82F6",
               color: "white",
               border: "none",
               borderRadius: "12px",
               padding: "10px 32px",
               fontSize: "1rem",
               fontWeight: "600",
-              cursor: "pointer",
-              transition: "background 0.2s"
+              cursor: attemptCount >= 3 ? "not-allowed" : "pointer",
+              transition: "background 0.2s",
+              opacity: attemptCount >= 3 ? 0.6 : 1
             }}
-            onMouseEnter={e => e.target.style.background = "#60A5FA"}
-            onMouseLeave={e => e.target.style.background = "#3B82F6"}
+            onMouseEnter={e => {
+              if (attemptCount < 3) e.target.style.background = "#60A5FA"
+            }}
+            onMouseLeave={e => {
+              if (attemptCount < 3) e.target.style.background = "#3B82F6"
+            }}
           >
             Submit
           </button>
