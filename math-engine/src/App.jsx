@@ -123,511 +123,294 @@ function App() {
   }
 
   if (screen === "complete") {
-    return (
-      <div style={{
-        width: "100vw",
-        height: "100vh",
-        background: "#0F172A",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "24px",
-        position: "relative"
-      }}>
-        <MathBackground />
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          style={{
-            position: "relative",
-            zIndex: 1,
-            width: "100%",
-            maxWidth: "680px",
-            borderRadius: "24px",
-            padding: "60px 46px",
-            background: "rgba(30, 41, 59, 0.5)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            boxShadow: "0 25px 50px rgba(0,0,0,0.4)",
-            textAlign: "center"
-          }}
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.5, type: "spring", stiffness: 200 }}
-            style={{ fontSize: "4rem", marginBottom: "16px" }}
-          >
-            ⚔️
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            style={{
-              fontSize: "2.5rem",
-              fontWeight: "700",
-              color: "#F2F0EF",
-              marginBottom: "8px"
-            }}
-          >
-            Victory!
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            style={{
-              fontSize: "1rem",
-              color: "#777777",
-              marginBottom: "40px"
-            }}
-          >
-            All problems conquered
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            style={{
-              display: "inline-block",
-              background: "rgba(59, 130, 246, 0.15)",
-              border: "1px solid rgba(59, 130, 246, 0.3)",
-              borderRadius: "16px",
-              padding: "20px 48px",
-              marginBottom: "48px"
-            }}
-          >
-            <p style={{
-              fontSize: "0.85rem",
-              color: "#777777",
-              margin: "0 0 4px 0"
-            }}>
-              Final Score
-            </p>
-            <p style={{
-              fontSize: "3rem",
-              fontWeight: "700",
-              color: "#FACC15",
-              margin: 0,
-              fontFamily: "'Fira Code', monospace"
-            }}>
-              {score}
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-            style={{ display: "flex", gap: "16px", justifyContent: "center" }}
-          >
-            <button
-              onClick={handleReturnToMenu}
-              style={{
-                background: "rgba(255,255,255,0.08)",
-                color: "white",
-                border: "1px solid rgba(255,255,255,0.15)",
-                borderRadius: "12px",
-                padding: "12px 32px",
-                fontSize: "1rem",
-                fontWeight: "600",
-                cursor: "pointer",
-                transition: "background 0.2s"
-              }}
-              onMouseEnter={e => e.target.style.background = "rgba(255,255,255,0.15)"}
-              onMouseLeave={e => e.target.style.background = "rgba(255,255,255,0.08)"}
-            >
-              Menu
-            </button>
-            <button
-              onClick={handleSelectNormal}
-              style={{
-                background: "#3B82F6",
-                color: "white",
-                border: "none",
-                borderRadius: "12px",
-                padding: "12px 32px",
-                fontSize: "1rem",
-                fontWeight: "600",
-                cursor: "pointer",
-                transition: "background 0.2s"
-              }}
-              onMouseEnter={e => e.target.style.background = "#60A5FA"}
-              onMouseLeave={e => e.target.style.background = "#3B82F6"}
-            >
-              Play Again
-            </button>
-          </motion.div>
-        </motion.div>
-      </div>
-    )
-  }
-
-  if (screen === "practiceCleared") {
-    return (
-      <div style={{
-        width: "100vw",
-        height: "100vh",
-        background: "#0F172A",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "24px",
-        position: "relative"
-      }}>
-        <MathBackground />
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          style={{
-            position: "relative",
-            zIndex: 1,
-            width: "100%",
-            maxWidth: "480px",
-            borderRadius: "24px",
-            padding: "48px 40px",
-            background: "rgba(30, 41, 59, 0.5)",
-            backdropFilter: "blur(20px)",
-            border: "1px solid rgba(34, 197, 94, 0.3)",
-            boxShadow: "0 25px 50px rgba(0,0,0,0.4)",
-            textAlign: "center"
-          }}
-        >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5, type: "spring", stiffness: 200 }}
-            style={{ fontSize: "3.5rem", marginBottom: "16px" }}
-          >
-            ✅
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            style={{
-              fontSize: "1.8rem",
-              fontWeight: "700",
-              color: "#22C55E",
-              marginBottom: "8px"
-            }}
-          >
-            {Array.isArray(wrongProblems) && wrongProblems.length === 0
-              ? "Queue Cleared!"
-              : "Problem Cleared!"}
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            style={{
-              fontSize: "0.95rem",
-              color: "#777777",
-              marginBottom: "32px",
-              lineHeight: 1.6
-            }}
-          >
-            {Array.isArray(wrongProblems) && wrongProblems.length === 0
-              ? "All caught up! Your practice queue is empty."
-              : `${wrongProblems.length} problem${wrongProblems.length > 1 ? "s" : ""} remaining in queue.`}
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            style={{
-              background: "rgba(34, 197, 94, 0.1)",
-              border: "1px solid rgba(34, 197, 94, 0.2)",
-              borderRadius: "12px",
-              padding: "12px 24px",
-              marginBottom: "32px",
-              display: "inline-block"
-            }}
-          >
-            <p style={{
-              fontSize: "0.8rem",
-              color: "#777777",
-              margin: "0 0 4px 0"
-            }}>
-              Score
-            </p>
-            <p style={{
-              fontSize: "2rem",
-              fontWeight: "700",
-              color: "#FACC15",
-              margin: 0,
-              fontFamily: "'Fira Code', monospace"
-            }}>
-              {score}
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            style={{
-              display: "flex",
-              gap: "12px",
-              justifyContent: "center"
-            }}
-          >
-            <button
-              onClick={handleReturnToMenu}
-              style={{
-                background: "rgba(255,255,255,0.08)",
-                color: "white",
-                border: "1px solid rgba(255,255,255,0.15)",
-                borderRadius: "12px",
-                padding: "12px 28px",
-                fontSize: "0.95rem",
-                fontWeight: "600",
-                cursor: "pointer",
-                transition: "background 0.2s"
-              }}
-              onMouseEnter={e => e.target.style.background = "rgba(255,255,255,0.15)"}
-              onMouseLeave={e => e.target.style.background = "rgba(255,255,255,0.08)"}
-            >
-              Menu
-            </button>
-            {Array.isArray(wrongProblems) && wrongProblems.length > 0 && (
-              <button
-                onClick={handleSelectPractice}
-                style={{
-                  background: "#22C55E",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "12px",
-                  padding: "12px 28px",
-                  fontSize: "0.95rem",
-                  fontWeight: "600",
-                  cursor: "pointer",
-                  transition: "background 0.2s"
-                }}
-                onMouseEnter={e => e.target.style.background = "#16A34A"}
-                onMouseLeave={e => e.target.style.background = "#22C55E"}
-              >
-                Next Problem
-              </button>
-            )}
-          </motion.div>
-        </motion.div>
-      </div>
-    )
-  }
-
-  if (screen === "cooldown") {
-    return(
-      <CooldownScreen
-        cooldownEndTime={cooldownEndTime}
-        onReturnToMenu={handleReturnToMenu}
-        clearCooldown={clearCooldown}/>
-    )
-  }
-
-  if (!currentProblem || !currentStep) {
-    return (
-      <div style={{
-        width: "100vw",
-        height: "100vh",
-        background: "#0F172A",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
-      }}>
-        <MathBackground />
-      </div>
-    )
-  }
-
   return (
-    <div style={{
-      width: "100vw",
-      height: "100vh",
-      background: "#0F172A",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "24px",
-      position: "relative"
-    }}>
+    <div className="relative flex h-screen w-screen items-center justify-center bg-primary p-6">
       <MathBackground />
 
-      {/* Exit button — top left */}
-      <button
-        onClick={() => setShowExitPopup(true)}
-        style={{
-          position: "fixed",
-          top: "20px",
-          left: "20px",
-          zIndex: 50,
-          background: "rgba(255,255,255,0.06)",
-          border: "1px solid rgba(255,255,255,0.1)",
-          borderRadius: "10px",
-          padding: "8px 16px",
-          color: "rgba(255,255,255,0.5)",
-          fontSize: "0.85rem",
-          fontWeight: "600",
-          cursor: "pointer",
-          transition: "all 0.2s",
-          display: "flex",
-          alignItems: "center",
-          gap: "6px"
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.background = "rgba(255,255,255,0.12)"
-          e.currentTarget.style.color = "white"
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.background = "rgba(255,255,255,0.06)"
-          e.currentTarget.style.color = "rgba(255,255,255,0.5)"
-        }}
-      >
-        ← Menu
-      </button>
-
-      {/* Exit confirmation popup */}
-      {showExitPopup && (
-        <ExitConfirmPopup
-          score={score}
-          isPracticeMode={isPracticeMode}
-          onStay={() => setShowExitPopup(false)}
-          onQuit={handleQuit}
-        />
-      )}
-
       <motion.div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          width: "100%",
-          maxWidth: "680px",
-          borderRadius: "24px",
-          padding: "46px",
-          background: "rgba(30, 41, 59, 0.5)",
-          backdropFilter: "blur(4px)",
-          border: "1px solid rgba(255,255,255,0.1)",
-          boxShadow: "0 25px 50px rgba(0,0,0,0.4)",
-        }}
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative z-10 w-full max-w-170 rounded-3xl border border-white/10 bg-[rgba(30,41,59,0.5)] px-11.5 py-15 text-center shadow-2xl backdrop-blur-xl"
       >
-        <ScoreBar
-          score={score}
-          problemIndex={isPracticeMode
-            ? practiceIndex
-            : problems.findIndex(p => p.id === currentProblem.id)}
-          stepIndex={stepIndex}
-          totalSteps={currentProblem.steps.length}
-          scoreDelta={scoreDelta}
-          isPracticeMode={isPracticeMode}
-        />
-        <QuestionDisplay
-          question={currentProblem.question}
-          prompt={currentStep.prompt}
-        />
-        <AnswerInput
-          value={inputValue}
-          onChange={setInputValue}
-          feedback={feedback}
-          hint={currentStep.hint}
-          onSubmit={handleSubmit}
-          attemptCount={attemptCount}
-        />
-        {attemptCount >= 3 && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            style={{
-              textAlign: "center",
-              marginTop: "16px",
-              padding: "12px 24px",
-              background: "rgba(239, 68, 68, 0.1)",
-              border: "1px solid rgba(239, 68, 68, 0.2)",
-              borderRadius: "12px",
-              color: "#EF4444",
-              fontSize: "0.9rem",
-              fontWeight: "500"
-            }}
-          >
-            ❌ Maximum attempts reached. This problem has been added to your practice queue.
-          </motion.div>
-        )}
-        {attemptCount >= 3 && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            style={{
-              textAlign: "center",
-              marginTop: "16px",
-              padding: "12px 24px",
-              background: "rgba(239, 68, 68, 0.1)",
-              border: "1px solid rgba(239, 68, 68, 0.2)",
-              borderRadius: "12px",
-            }}
-          >
-            <p style={{
-              color: "#EF4444",
-              fontSize: "0.9rem",
-              fontWeight: "500",
-              margin: "0 0 12px 0"
-            }}>
-              ❌ Maximum attempts reached. This problem has been added to your practice queue.
-            </p>
-            <button
-              onClick={handleQuit}
-              style={{
-                background: "rgba(239, 68, 68, 0.15)",
-                color: "#EF4444",
-                border: "1px solid rgba(239, 68, 68, 0.3)",
-                borderRadius: "10px",
-                padding: "8px 24px",
-                fontSize: "0.85rem",
-                fontWeight: "600",
-                cursor: "pointer",
-                transition: "all 0.2s"
-              }}
-              onMouseEnter={e => e.target.style.background = "rgba(239, 68, 68, 0.25)"}
-              onMouseLeave={e => e.target.style.background = "rgba(239, 68, 68, 0.15)"}
-            >
-              Quit Problem
-            </button>
-          </motion.div>
-        )}
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "24px"
-        }}>
+        {/* Icon */}
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{
+            delay: 0.3,
+            duration: 0.5,
+            type: "spring",
+            stiffness: 200,
+          }}
+          className="mb-4 text-[4rem]"
+        >
+          ⚔️
+        </motion.div>
+
+        {/* Title */}
+        <motion.h1
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="mb-2 text-[2.5rem] font-bold text-white"
+        >
+          Victory!
+        </motion.h1>
+
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="mb-10 text-base text-grey"
+        >
+          All problems conquered
+        </motion.p>
+
+        {/* Score Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          className="mb-12 inline-block rounded-2xl border border-blue-500/30 bg-blue-500/15 px-12 py-5"
+        >
+          <p className="mb-1 text-[0.85rem] text-grey">
+            Final Score
+          </p>
+
+          <p className="font-['Fira_Code'] text-[3rem] font-bold text-yellow-400">
+            {score}
+          </p>
+        </motion.div>
+
+        {/* Buttons */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
+          className="flex justify-center gap-4"
+        >
           <button
-            onClick={handleSubmit}
-            disabled={attemptCount >= 3}
-            style={{
-              background: attemptCount >= 3 ? "#444" : "#3B82F6",
-              color: "white",
-              border: "none",
-              borderRadius: "12px",
-              padding: "10px 32px",
-              fontSize: "1rem",
-              fontWeight: "600",
-              cursor: attemptCount >= 3 ? "not-allowed" : "pointer",
-              transition: "background 0.2s",
-              opacity: attemptCount >= 3 ? 0.6 : 1
-            }}
-            onMouseEnter={e => {
-              if (attemptCount < 3) e.target.style.background = "#60A5FA"
-            }}
-            onMouseLeave={e => {
-              if (attemptCount < 3) e.target.style.background = "#3B82F6"
-            }}
+            onClick={handleReturnToMenu}
+            className="cursor-pointer rounded-xl border border-white/15 bg-white/10 px-8 py-3 text-base font-semibold text-white transition-colors duration-200 hover:bg-white/15"
           >
-            Submit
+            Menu
           </button>
-        </div>
+
+          <button
+            onClick={handleSelectNormal}
+            className="cursor-pointer rounded-xl bg-blue-500 px-8 py-3 text-base font-semibold text-white transition-colors duration-200 hover:bg-blue-400"
+          >
+            Play Again
+          </button>
+        </motion.div>
       </motion.div>
     </div>
+  );
+}
+
+  if (screen === "practiceCleared") {
+  return (
+    <div className="relative flex h-screen w-screen items-center justify-center bg-primary p-6">
+      <MathBackground />
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative z-10 w-full max-w-120 rounded-3xl border border-green-500/30 bg-[rgba(30,41,59,0.5)] px-10 py-12 text-center shadow-2xl backdrop-blur-xl"
+      >
+        {/* Icon */}
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{
+            delay: 0.2,
+            duration: 0.5,
+            type: "spring",
+            stiffness: 200,
+          }}
+          className="mb-4 text-[3.5rem]"
+        >
+          ✅
+        </motion.div>
+
+        {/* Title */}
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="mb-2 text-[1.8rem] font-bold text-green-500"
+        >
+          {Array.isArray(wrongProblems) && wrongProblems.length === 0
+            ? "Queue Cleared!"
+            : "Problem Cleared!"}
+        </motion.h2>
+
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="mb-8 text-[0.95rem] leading-relaxed text-grey"
+        >
+          {Array.isArray(wrongProblems) && wrongProblems.length === 0
+            ? "All caught up! Your practice queue is empty."
+            : `${wrongProblems.length} problem${
+                wrongProblems.length > 1 ? "s" : ""
+              } remaining in queue.`}
+        </motion.p>
+
+        {/* Score Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="mb-8 inline-block rounded-xl border border-green-500/20 bg-green-500/10 px-6 py-3"
+        >
+          <p className="mb-1 text-[0.8rem] text-grey">
+            Score
+          </p>
+
+          <p className="font-['Fira_Code'] text-[2rem] font-bold text-yellow-400">
+            {score}
+          </p>
+        </motion.div>
+
+        {/* Buttons */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          className="flex justify-center gap-3"
+        >
+          <button
+            onClick={handleReturnToMenu}
+            className="cursor-pointer rounded-xl border border-white/15 bg-white/10 px-7 py-3 text-[0.95rem] font-semibold text-white transition-colors duration-200 hover:bg-white/15"
+          >
+            Menu
+          </button>
+
+          {Array.isArray(wrongProblems) && wrongProblems.length > 0 && (
+            <button
+              onClick={handleSelectPractice}
+              className="cursor-pointer rounded-xl bg-green-500 px-7 py-3 text-[0.95rem] font-semibold text-white transition-colors duration-200 hover:bg-green-600"
+            >
+              Next Problem
+            </button>
+          )}
+        </motion.div>
+      </motion.div>
+    </div>
+  );
+}
+
+if (screen === "cooldown") {
+  return (
+    <CooldownScreen
+      cooldownEndTime={cooldownEndTime}
+      onReturnToMenu={handleReturnToMenu}
+      clearCooldown={clearCooldown}
+    />
+  );
+}
+
+  if (!currentProblem || !currentStep) {
+  return (
+    <div className="flex h-screen w-screen items-center justify-center bg-primary">
+      <MathBackground />
+    </div>
   )
+}
+
+  return (
+  <div className="relative flex h-screen w-screen items-center justify-center bg-primary p-6">
+    <MathBackground />
+
+    {/* Exit button */}
+    <button
+      onClick={() => setShowExitPopup(true)}
+      className="fixed left-5 top-5 z-50 flex cursor-pointer items-center gap-1.5 rounded-[10px] border border-white/10 bg-white/5 px-4 py-2 text-[0.85rem] font-semibold text-white/50 transition-all duration-200 hover:bg-white/10 hover:text-white"
+    >
+      ← Menu
+    </button>
+
+    {/* Exit confirmation popup */}
+    {showExitPopup && (
+      <ExitConfirmPopup
+        score={score}
+        isPracticeMode={isPracticeMode}
+        onStay={() => setShowExitPopup(false)}
+        onQuit={handleQuit}
+      />
+    )}
+
+    <motion.div className="relative z-10 w-full max-w-170 rounded-3xl border border-white/10 bg-[rgba(30,41,59,0.5)] p-11.5 shadow-2xl backdrop-blur-sm">
+      <ScoreBar
+        score={score}
+        problemIndex={
+          isPracticeMode
+            ? practiceIndex
+            : problems.findIndex((p) => p.id === currentProblem.id)
+        }
+        stepIndex={stepIndex}
+        totalSteps={currentProblem.steps.length}
+        scoreDelta={scoreDelta}
+        isPracticeMode={isPracticeMode}
+      />
+
+      <QuestionDisplay
+        question={currentProblem.question}
+        prompt={currentStep.prompt}
+      />
+
+      <AnswerInput
+        value={inputValue}
+        onChange={setInputValue}
+        feedback={feedback}
+        hint={currentStep.hint}
+        onSubmit={handleSubmit}
+        attemptCount={attemptCount}
+      />
+
+      {attemptCount >= 3 && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="mt-4 rounded-xl border border-red-500/20 bg-red-500/10 px-6 py-3 text-center"
+        >
+          <p className="mb-3 text-[0.9rem] font-medium text-red-500">
+            ❌ Maximum attempts reached. This problem has been added to your
+            practice queue.
+          </p>
+
+          <button
+            onClick={handleQuit}
+            className="cursor-pointer rounded-[10px] border border-red-500/30 bg-red-500/15 px-6 py-2 text-[0.85rem] font-semibold text-red-500 transition-colors duration-200 hover:bg-red-500/25"
+          >
+            Quit Problem
+          </button>
+        </motion.div>
+      )}
+
+      <div className="mt-6 flex justify-center">
+        <button
+          onClick={handleSubmit}
+          disabled={attemptCount >= 3}
+          className={`rounded-xl px-8 py-2.5 text-base font-semibold text-white transition-colors duration-200 ${
+            attemptCount >= 3
+              ? "cursor-not-allowed bg-[#444] opacity-60"
+              : "cursor-pointer bg-blue-500 hover:bg-blue-400"
+          }`}
+        >
+          Submit
+        </button>
+      </div>
+    </motion.div>
+  </div>
+);
 }
 
 export default App

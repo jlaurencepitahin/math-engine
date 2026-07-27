@@ -1,96 +1,69 @@
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
 
-function ModeCard({ title, subtitle, description, buttonLabel, onClick, disabled, badge }){
-    return(
-        <motion.div
-            whileHover={!disabled ? { scale: 1.04, y: -6} : {}}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            style={{
-                flex: 1, 
-                borderRadius: "24px",
-                padding: "40px 32px",
-                background: disabled
-                    ? "rgba(255,255,255,0.02)"
-                    : "rgba(255,255,255,0.06)",
-                backdropFilter: "blur(4px)",
-                border: disabled
-                    ? "none"
-                    : "0 25px 50px rgba(0,0,0,0.4)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-                gap: "16px",
-                opacity: disabled ? 0.4 : 1,
-                cursor: disabled ? "not-allowed" : "pointer",
-                transition: "opacity 0.3s   "
-            }}>
-                <div style={{ fontSize: "3rem"}}>
-                    {title === "Nomal Mode" ? "⚔️" : "🔄"}
-                </div>
-                <h2 style={{
-                    fontSize: "1.5rem",
-                    fontWeight: "700",
-                    color: "#F2F0EF",
-                    margin: 0
-                }}>
-                    {title}
-                </h2>
+function ModeCard({
+  title,
+  subtitle,
+  description,
+  buttonLabel,
+  onClick,
+  disabled,
+  badge,
+}) {
+  return (
+    <motion.div
+      whileHover={!disabled ? { scale: 1.04, y: -6 } : {}}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className={`flex flex-1 ${
+        disabled ? "cursor-not-allowed" : "cursor-pointer"
+      } flex-col items-center gap-4 rounded-3xl border p-10 text-center backdrop-blur-xl transition-opacity ${
+        disabled
+          ? "border-white/5 bg-white/5 opacity-40 shadow-none"
+          : "border-white/10 bg-white/10 opacity-100 shadow-2xl"
+      }`}
+    >
+      {/* Icon */}
+      <div className="text-5xl">
+        {title === "Normal Mode" ? "⚔️" : "🔄"}
+      </div>
 
-                {subtitle && (
-                    <p style = {{
-                        fontSize: "0.85rem",
-                        color: "#777777",
-                        margin: 0
-                    }}>
-                        {subtitle}
-                    </p>
-                )}
+      {/* Title */}
+      <h2 className="text-2xl font-bold text-[#F2F0EF]">
+        {title}
+      </h2>
 
-                {badge && (
-                    <div style={{
-                        background: "rgba(250, 204, 21, 0.15)",
-                        border: "1px solid rgba(250, 204, 21, 0.3)",
-                        borderRadius: "99px",
-                        padding: "4px 14px",
-                        fontSize: "0.8rem",
-                        fontWeight: "600",
-                        color: "#FACC15"
-                    }}>
-                        {badge}
-                    </div>
-                )}
+      {/* Subtitle */}
+      {subtitle && (
+        <p className="text-[0.85rem] text-[#777777]">
+          {subtitle}
+        </p>
+      )}
 
-                <p style={{
-                    fontSize: "0.9rem",
-                    color: "#F2F0EF",
-                    opacity: 0.6,
-                    margin: 0,
-                    lineHeight: 1.6,
-                    flexGrow: 1
-                }}>
-                    {description}
-                </p>
+      {/* Badge */}
+      {badge && (
+        <div className="rounded-full border border-yellow-400/30 bg-yellow-400/15 px-3.5 py-1 text-[0.8rem] font-semibold text-yellow-400">
+          {badge}
+        </div>
+      )}
 
-                <motion.button
-                    whileHover={!disabled ? { background: "#60A5FA" } : {}}
-                    onClick={!disabled ? onClick : undefined}
-                    style={{
-                    background: disabled ? "#444" : "#3B82F6",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "12px",
-                    padding: "12px 36px",
-                    fontSize: "1rem",
-                    fontWeight: "600",
-                    cursor: disabled ? "not-allowed" : "pointer",
-                    transition: "background 0.2s",
-                    marginTop: "8px"
-                    }}>
-                        {buttonLabel}
-                </motion.button>
-            </motion.div>
-    )
+      {/* Description */}
+      <p className="flex-grow text-[0.9rem] leading-relaxed text-[#F2F0EF] opacity-60">
+        {description}
+      </p>
+
+      {/* Button */}
+      <motion.button
+        whileHover={!disabled ? { background: "#60A5FA" } : {}}
+        onClick={!disabled ? onClick : undefined}
+        className={`mt-2 rounded-xl px-9 py-3 text-base font-semibold text-white transition-colors ${
+          disabled
+            ? "cursor-not-allowed bg-[#444]"
+            : "cursor-pointer bg-blue-500"
+        }`}
+      >
+        {buttonLabel}
+      </motion.button>
+    </motion.div>
+  );
 }
 
-export default ModeCard
+export default ModeCard;

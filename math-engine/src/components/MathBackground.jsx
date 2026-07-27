@@ -1,42 +1,21 @@
 function MathBackground() {
   return (
     <>
-      {/* SVG pattern */}
-      <div style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        zIndex: 0,
-        pointerEvents: "none",
-        overflow: "hidden"
-      }}>
+      {/* SVG Pattern */}
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <img
           src="/Background.svg"
           alt=""
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            opacity: 0.5
-          }}
+          className="h-full w-full object-cover opacity-50"
         />
       </div>
 
-      {/* Radial gradient — darker edges, lighter center */}
-      <div style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        zIndex: 0,
-        pointerEvents: "none",
-        background: "radial-gradient(ellipse at center, rgba(30,58,138,0.15) 0%, rgba(15,23,42,0.6) 100%)"
-      }} />
+      {/* Radial Gradient */}
+      <div
+        className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,rgba(30,58,138,0.15)_0%,rgba(15,23,42,0.6)_100%)]"
+      />
     </>
-  )
+  );
 }
 
-export default MathBackground
+export default MathBackground;

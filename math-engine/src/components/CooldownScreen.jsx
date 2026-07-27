@@ -1,175 +1,113 @@
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import MathBackground from "./MathBackground"
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import MathBackground from "./MathBackground";
 
-function CooldownScreen({ cooldownEndTime, onReturnToMenu, clearCooldown }) {
-  const [timeLeft, setTimeLeft] = useState(null)
-  const [unlocked, setUnlocked] = useState(false)
+function CooldownScreen({
+  cooldownEndTime,
+  onReturnToMenu,
+  clearCooldown,
+}) {
+  const [timeLeft, setTimeLeft] = useState(null);
+  const [unlocked, setUnlocked] = useState(false);
 
   useEffect(() => {
     function tick() {
-      const remaining = cooldownEndTime - Date.now()
+      const remaining = cooldownEndTime - Date.now();
 
       if (remaining <= 0) {
-        setTimeLeft(0)
-        setUnlocked(true)
-        clearCooldown()
-        return
+        setTimeLeft(0);
+        setUnlocked(true);
+        clearCooldown();
+        return;
       }
 
-      setTimeLeft(remaining)
+      setTimeLeft(remaining);
     }
 
-    tick()
-    const interval = setInterval(tick, 1000)
-    return () => clearInterval(interval)
-  }, [cooldownEndTime])
+    tick();
+    const interval = setInterval(tick, 1000);
 
-  const minutes = timeLeft ? Math.floor(timeLeft / 60000) : 0
-  const seconds = timeLeft ? Math.floor((timeLeft % 60000) / 1000) : 0
-  const formatted = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
+    return () => clearInterval(interval);
+  }, [cooldownEndTime]);
+
+  const minutes = timeLeft ? Math.floor(timeLeft / 60000) : 0;
+  const seconds = timeLeft
+    ? Math.floor((timeLeft % 60000) / 1000)
+    : 0;
+
+  const formatted = `${String(minutes).padStart(2, "0")}:${String(
+    seconds
+  ).padStart(2, "0")}`;
 
   return (
-    <div style={{
-      width: "100vw",
-      height: "100vh",
-      background: "#0F172A",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "24px",
-      position: "relative"
-    }}>
+    <div className="relative flex h-screen w-screen items-center justify-center bg-[#0F172A] p-6">
       <MathBackground />
 
       <AnimatePresence mode="wait">
         {!unlocked ? (
-
-          // Cooldown active screen
           <motion.div
             key="cooldown"
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: -20 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            style={{
-              position: "relative",
-              zIndex: 1,
-              width: "100%",
-              maxWidth: "480px",
-              borderRadius: "24px",
-              padding: "48px 40px",
-              background: "rgba(30, 41, 59, 0.5)",
-              backdropFilter: "blur(20px)",
-              border: "1px solid rgba(250, 204, 21, 0.3)",
-              boxShadow: "0 25px 50px rgba(0,0,0,0.4)",
-              textAlign: "center"
-            }}
+            className="relative z-10 w-full max-w-480px rounded-3xl border border-yellow-400/30 bg-[rgba(30,41,59,0.5)] px-10 py-12 text-center shadow-2xl backdrop-blur-xl"
           >
             <motion.div
               animate={{ rotate: [0, -10, 10, -10, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
-              style={{ fontSize: "3.5rem", marginBottom: "16px" }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                repeatDelay: 2,
+              }}
+              className="mb-4 text-[3.5rem]"
             >
               ⏳
             </motion.div>
 
-            <h2 style={{
-              fontSize: "1.8rem",
-              fontWeight: "700",
-              color: "#FACC15",
-              marginBottom: "8px"
-            }}>
+            <h2 className="mb-2 text-[1.8rem] font-bold text-yellow-400">
               Take a Break!
             </h2>
 
-            <p style={{
-              fontSize: "0.95rem",
-              color: "#777777",
-              lineHeight: 1.6,
-              marginBottom: "32px"
-            }}>
-              You've been struggling with this problem. Rest your mind — practice will unlock when the timer ends.
+            <p className="mb-8 text-[0.95rem] leading-relaxed text-[#777777]">
+              You've been struggling with this problem. Rest your mind —
+              practice will unlock when the timer ends.
             </p>
 
-            {/* Countdown timer */}
-            <div style={{
-              background: "rgba(250, 204, 21, 0.1)",
-              border: "1px solid rgba(250, 204, 21, 0.25)",
-              borderRadius: "16px",
-              padding: "24px 48px",
-              marginBottom: "32px",
-              display: "inline-block"
-            }}>
-              <p style={{
-                fontSize: "0.8rem",
-                color: "#777777",
-                margin: "0 0 8px 0",
-                letterSpacing: "0.05em"
-              }}>
+            <div className="mb-8 inline-block rounded-2xl border border-yellow-400/25 bg-yellow-400/10 px-12 py-6">
+              <p className="mb-2 text-[0.8rem] tracking-0.05em text-[#777777]">
                 PRACTICE UNLOCKS IN
               </p>
-              <p style={{
-                fontSize: "3rem",
-                fontWeight: "700",
-                color: "#FACC15",
-                margin: 0,
-                fontFamily: "'Fira Code', monospace",
-                letterSpacing: "0.05em"
-              }}>
+
+              <p className="font-['Fira_Code'] text-[3rem] font-bold tracking-0.05em text-yellow-400">
                 {formatted}
               </p>
             </div>
 
             <button
               onClick={onReturnToMenu}
-              style={{
-                background: "rgba(255,255,255,0.08)",
-                color: "white",
-                border: "1px solid rgba(255,255,255,0.15)",
-                borderRadius: "12px",
-                padding: "12px 32px",
-                fontSize: "0.95rem",
-                fontWeight: "600",
-                cursor: "pointer",
-                transition: "background 0.2s",
-                display: "block",
-                margin: "0 auto"
-              }}
-              onMouseEnter={e => e.target.style.background = "rgba(255,255,255,0.15)"}
-              onMouseLeave={e => e.target.style.background = "rgba(255,255,255,0.08)"}
+              className="mx-auto block cursor-pointer rounded-xl border border-white/15 bg-white/10 px-8 py-3 text-[0.95rem] font-semibold text-white transition-colors duration-200 hover:bg-white/15"
             >
               Back to Menu
             </button>
           </motion.div>
-
         ) : (
-
-          // Unlocked screen
           <motion.div
             key="unlocked"
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            style={{
-              position: "relative",
-              zIndex: 1,
-              width: "100%",
-              maxWidth: "480px",
-              borderRadius: "24px",
-              padding: "48px 40px",
-              background: "rgba(30, 41, 59, 0.5)",
-              backdropFilter: "blur(20px)",
-              border: "1px solid rgba(34, 197, 94, 0.3)",
-              boxShadow: "0 25px 50px rgba(0,0,0,0.4)",
-              textAlign: "center"
-            }}
+            className="relative z-10 w-full max-w-480px rounded-3xl border border-green-500/30 bg-[rgba(30,41,59,0.5)] px-10 py-12 text-center shadow-2xl backdrop-blur-xl"
           >
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
-              style={{ fontSize: "3.5rem", marginBottom: "16px" }}
+              transition={{
+                type: "spring",
+                stiffness: 200,
+                delay: 0.1,
+              }}
+              className="mb-4 text-[3.5rem]"
             >
               🎉
             </motion.div>
@@ -178,12 +116,7 @@ function CooldownScreen({ cooldownEndTime, onReturnToMenu, clearCooldown }) {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              style={{
-                fontSize: "1.8rem",
-                fontWeight: "700",
-                color: "#22C55E",
-                marginBottom: "8px"
-              }}
+              className="mb-2 text-[1.8rem] font-bold text-green-500"
             >
               Practice Unlocked!
             </motion.h2>
@@ -192,14 +125,10 @@ function CooldownScreen({ cooldownEndTime, onReturnToMenu, clearCooldown }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
-              style={{
-                fontSize: "0.95rem",
-                color: "#777777",
-                lineHeight: 1.6,
-                marginBottom: "32px"
-              }}
+              className="mb-8 text-[0.95rem] leading-relaxed text-[#777777]"
             >
-              Hope you feel refreshed! Head back to the menu and give it another shot.
+              Hope you feel refreshed! Head back to the menu and give it another
+              shot.
             </motion.p>
 
             <motion.button
@@ -207,30 +136,15 @@ function CooldownScreen({ cooldownEndTime, onReturnToMenu, clearCooldown }) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.5 }}
               onClick={onReturnToMenu}
-              style={{
-                background: "#22C55E",
-                color: "white",
-                border: "none",
-                borderRadius: "12px",
-                padding: "12px 32px",
-                fontSize: "0.95rem",
-                fontWeight: "600",
-                cursor: "pointer",
-                transition: "background 0.2s",
-                display: "block",
-                margin: "0 auto"
-              }}
-              onMouseEnter={e => e.target.style.background = "#16A34A"}
-              onMouseLeave={e => e.target.style.background = "#22C55E"}
+              className="mx-auto block cursor-pointer rounded-xl bg-green-500 px-8 py-3 text-[0.95rem] font-semibold text-white transition-colors duration-200 hover:bg-green-600"
             >
               Back to Menu
             </motion.button>
           </motion.div>
-
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }
 
-export default CooldownScreen
+export default CooldownScreen;

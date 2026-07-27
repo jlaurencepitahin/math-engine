@@ -1,24 +1,15 @@
 function HintBox({ hint }) {
   return (
-    <div style={{
-      padding: "16px"
-    }}>
-      <p style={{
-        color: "#60A5FA",
-        fontSize: "0.8rem",
-        fontWeight: "600",
-      }}>
+    <div className="box-border rounded-2xl border border-white/10 bg-[rgba(15,23,42,0.85)] p-4 backdrop-blur-xl">
+      <p className="mb-2 text-[0.8rem] font-semibold text-[#60A5FA]">
         Hint
       </p>
-      <p style={{
-        color: "#F2F0EF",
-        fontSize: "0.85rem",
-        margin: 0
-      }}>
+
+      <p className="text-[0.85rem] leading-[1.6] text-[#F2F0EF]">
         {hint}
       </p>
     </div>
-  )
+  );
 }
 
 export default HintBox

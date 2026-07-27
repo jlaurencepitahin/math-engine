@@ -1,34 +1,21 @@
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion";
 
-function ScoreBar({ score, problemIndex, stepIndex, totalSteps, scoreDelta, isPractiveMode }) {
+function ScoreBar({
+  score,
+  problemIndex,
+  stepIndex,
+  totalSteps,
+  scoreDelta,
+  isPracticeMode,
+}) {
   return (
-    <div style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      width: "100%",
-      marginBottom: "24px",
-      height: "48px",        
-      position: "relative"   
-    }}>
-
-      {/* Score — left */}
-      <div style={{
-        position: "relative",
-        minWidth: "130px",
-        height: "48px",
-        display: "flex",
-        alignItems: "center"
-      }}>
-        <span style={{
-          fontSize: "1.25rem",
-          fontWeight: "700",
-          color: "white"
-        }}>
+    <div className="relative mb-6 flex h-12 w-full items-center justify-between">
+      {/* Score */}
+      <div className="relative flex h-12 min-w-130px items-center">
+        <span className="text-xl font-bold text-white">
           Score: {score}
         </span>
 
-        {/* Delta floats — never touches layout */}
         <AnimatePresence>
           {scoreDelta !== null && (
             <motion.span
@@ -37,16 +24,9 @@ function ScoreBar({ score, problemIndex, stepIndex, totalSteps, scoreDelta, isPr
               animate={{ opacity: 0, y: -36, scale: 1.2 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              style={{
-                position: "absolute",
-                top: "-4px",
-                left: "0",
-                fontWeight: "700",
-                fontSize: "0.9rem",
-                color: scoreDelta > 0 ? "#22C55E" : "#EF4444",
-                pointerEvents: "none",
-                whiteSpace: "nowrap"
-              }}
+              className={`pointer-events-none absolute left-0 -top-1 whitespace-nowrap text-sm font-bold ${
+                scoreDelta > 0 ? "text-green-500" : "text-red-500"
+              }`}
             >
               {scoreDelta > 0 ? `+${scoreDelta}` : scoreDelta}
             </motion.span>
@@ -54,46 +34,27 @@ function ScoreBar({ score, problemIndex, stepIndex, totalSteps, scoreDelta, isPr
         </AnimatePresence>
       </div>
 
-      {/* Problem No. — absolutely centered */}
-      <div style={{
-        position: "absolute",
-        left: "50%",
-        transform: "translateX(-50%)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center"
-      }}>
-      {isPractiveMode &&(
-        <span style={{
-            fontSize: "0.7rem",
-            fontWeight: "700",
-            color: "#FACC15",
-            letterSpacing: "0.1rem",
-            marginBottom: "2px"
-        }}>
+      {/* Center */}
+      <div className="absolute left-1/2 flex -translate-x-1/2 flex-col items-center">
+        {isPracticeMode && (
+          <span className="mb-0.5 text-[0.7rem] font-bold tracking-0.1em text-yellow-400">
             ⚔️ PRACTICE MODE
-        </span>
-      )}
-        <span style={{
-          fontSize: "1.1rem",
-          fontWeight: "700",
-          color: "white"
-        }}>
+          </span>
+        )}
+
+        <span className="text-lg font-bold text-white">
           Problem No. {problemIndex + 1}
         </span>
-        <span style={{
-          fontSize: "0.8rem",
-          color: "#777777"
-        }}>
+
+        <span className="text-sm text-gray-500">
           Step No. {stepIndex + 1}/{totalSteps}
         </span>
       </div>
 
-      {/* Right spacer */}
-      <div style={{ minWidth: "130px" }} />
-
+      {/* Spacer */}
+      <div className="min-w-130px" />
     </div>
-  )
+  );
 }
 
-export default ScoreBar
+export default ScoreBar;
