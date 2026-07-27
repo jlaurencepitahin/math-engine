@@ -234,6 +234,7 @@ function useEngine(problems) {
     practiceRetryCount,
     cooldownEndTime,
     completedPracticeIds,
+    activePracticeProblems,
     triggerCooldown,
     clearCooldown,
     submitAnswer,

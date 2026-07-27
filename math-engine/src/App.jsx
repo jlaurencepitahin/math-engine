@@ -28,11 +28,12 @@ function App() {
     wrongProblems,
     isPracticeMode,
     cooldownEndTime,
+    activePracticeProblems,
     clearCooldown,
     submitAnswer,
     returnToMenu,
     startNormalMode,
-    startPracticeMode
+    startPracticeMode,
   } = useEngine(problems)
 
   useEffect(() => {
@@ -243,7 +244,7 @@ function App() {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="mb-2 text-[1.8rem] font-bold text-green-500"
         >
-          {Array.isArray(wrongProblems) && wrongProblems.length === 0
+          {activePracticeProblems.length === 0
             ? "Queue Cleared!"
             : "Problem Cleared!"}
         </motion.h2>
@@ -255,10 +256,10 @@ function App() {
           transition={{ delay: 0.4, duration: 0.5 }}
           className="mb-8 text-[0.95rem] leading-relaxed text-grey"
         >
-          {Array.isArray(wrongProblems) && wrongProblems.length === 0
+          {activePracticeProblems.length === 0
             ? "All caught up! Your practice queue is empty."
-            : `${wrongProblems.length} problem${
-                wrongProblems.length > 1 ? "s" : ""
+            : `${activePracticeProblems.length} problem${
+                activePracticeProblems.length > 1 ? "s" : ""
               } remaining in queue.`}
         </motion.p>
 
@@ -292,7 +293,7 @@ function App() {
             Menu
           </button>
 
-          {Array.isArray(wrongProblems) && wrongProblems.length > 0 && (
+          {activePracticeProblems.length > 0 && (
             <button
               onClick={handleSelectPractice}
               className="cursor-pointer rounded-xl bg-green-500 px-7 py-3 text-[0.95rem] font-semibold text-white transition-colors duration-200 hover:bg-green-600"
