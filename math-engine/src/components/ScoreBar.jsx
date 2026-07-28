@@ -19,7 +19,7 @@ function ScoreBar({
         <AnimatePresence>
           {scoreDelta !== null && (
             <motion.span
-              key={scoreDelta + "-" + Date.now()}
+              key={scoreDelta}
               initial={{ opacity: 1, y: 0, scale: 1 }}
               animate={{ opacity: 0, y: -36, scale: 1.2 }}
               exit={{ opacity: 0 }}

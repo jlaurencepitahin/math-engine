@@ -28,7 +28,7 @@ function CooldownScreen({
     const interval = setInterval(tick, 1000);
 
     return () => clearInterval(interval);
-  }, [cooldownEndTime]);
+  }, [clearCooldown, cooldownEndTime]);
 
   const minutes = timeLeft ? Math.floor(timeLeft / 60000) : 0;
   const seconds = timeLeft
@@ -40,7 +40,7 @@ function CooldownScreen({
   ).padStart(2, "0")}`;
 
   return (
-    <div className="relative flex h-screen w-screen items-center justify-center bg-[#0F172A] p-6">
+    <div className="relative flex h-screen w-screen items-center justify-center bg-primary p-6">
       <MathBackground />
 
       <AnimatePresence mode="wait">
@@ -69,13 +69,13 @@ function CooldownScreen({
               Take a Break!
             </h2>
 
-            <p className="mb-8 text-[0.95rem] leading-relaxed text-[#777777]">
+            <p className="mb-8 text-[0.95rem] leading-relaxed text-grey">
               You've been struggling with this problem. Rest your mind —
               practice will unlock when the timer ends.
             </p>
 
             <div className="mb-8 inline-block rounded-2xl border border-yellow-400/25 bg-yellow-400/10 px-12 py-6">
-              <p className="mb-2 text-[0.8rem] tracking-0.05em text-[#777777]">
+              <p className="mb-2 text-[0.8rem] tracking-0.05em text-grey">
                 PRACTICE UNLOCKS IN
               </p>
 
@@ -125,7 +125,7 @@ function CooldownScreen({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.5 }}
-              className="mb-8 text-[0.95rem] leading-relaxed text-[#777777]"
+              className="mb-8 text-[0.95rem] leading-relaxed text-grey"
             >
               Hope you feel refreshed! Head back to the menu and give it another
               shot.
