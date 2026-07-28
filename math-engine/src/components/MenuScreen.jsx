@@ -14,7 +14,7 @@ function MenuScreen({
   const hasPracticeProblems = wrongProblemsCount > 0;
 
   return (
-    <div className="relative flex h-screen w-screen flex-col items-center justify-center gap-12 bg-[#0F172A] px-6 py-10">
+    <div className="relative flex h-screen w-screen flex-col items-center justify-center gap-12 bg-primary px-6 py-10">
       <MathBackground />
 
       <motion.div
@@ -23,11 +23,11 @@ function MenuScreen({
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="relative z-10 text-center"
       >
-        <h1 className="mb-2 text-6xl font-bold tracking-[-0.02em] text-[#F2F0EF]">
+        <h1 className="mb-2 text-6xl font-bold tracking-[-0.02em] text-white">
           ⚔️ Mathventure
         </h1>
 
-        <p className="text-base text-[#777777]">
+        <p className="text-base text-grey">
           Conquer math one problem at a time
         </p>
       </motion.div>
@@ -40,7 +40,7 @@ function MenuScreen({
           delay: 0.2,
           ease: "easeOut",
         }}
-        className="relative z-10 flex w-full max-w-760px gap-6"
+        className="relative z-10 flex w-full max-w-[760px] flex-col gap-6 md:flex-row"
       >
         <ModeCard
           title="Normal Mode"
