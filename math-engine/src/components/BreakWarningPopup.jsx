@@ -1,49 +1,108 @@
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
+import { Info } from "lucide-react"
+import HintBox from "./HintBox"
+import useIsMobile from "../hooks/useIsMobile"
 
-function BreakWarningPopup({ onContinue, onBack }) {
+function AnswerInput({ value, onChange, feedback, hint, onSubmit, attemptCount }) {
+  const [showHint, setShowHint] = useState(false)
+  const isMobile = useIsMobile()
+
+  const isWrong = feedback === "incorrect"
+  const isCorrect = feedback === "correct"
+  const isLocked = attemptCount >= 3
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (isWrong) setShowHint(true)
+    else setShowHint(false)
+  }, [feedback, isWrong])
+
+  const borderClass = isCorrect
+    ? "border-green-500"
+    : isWrong || isLocked
+    ? "border-red-500"
+    : "border-white/15"
+
+  const bgClass = isLocked ? "bg-red-500/5" : "bg-white/90"
+
+  const textClass = isWrong || isLocked
+    ? "text-red-500"
+    : "text-[#0F172A]"
+
+  const placeholderText = isLocked
+    ? "Maximum attempts reached."
+    : isWrong
+    ? "Incorrect. Try again..."
+    : "Your answer..."
+
   return (
-    <div className="fixed inset-0 z-100 flex h-screen w-screen items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div className={`flex w-full gap-3 ${
+      isMobile ? "flex-col items-start" : "flex-row items-start"
+    }`}>
+
+      {/* Input — animated width on desktop, full width on mobile */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 10 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.25, ease: "easeOut" }}
-        className="w-full max-w-420px rounded-3xl border border-yellow-400/30 bg-[rgba(15,23,42,0.95)] px-9 py-10 text-center shadow-2xl backdrop-blur-xl"
+        initial={false}
+        animate={{
+          width: (!isMobile && (isWrong || isLocked) && showHint)
+            ? "58%"
+            : "100%"
+        }}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
+        className="relative shrink-0"
+        style={{ width: isMobile ? "100%" : undefined }}
       >
-        {/* Icon */}
-        <div className="mb-4 text-[2.5rem]">
-          ⚠️
-        </div>
-
-        {/* Title */}
-        <h3 className="mb-3 text-[1.4rem] font-bold text-yellow-400">
-          You're on Cooldown
-        </h3>
-
-        {/* Description */}
-        <p className="mb-7 text-[0.9rem] leading-relaxed text-[#777777]">
-          Practice mode is locked. We recommend taking a short break before
-          continuing with Normal Mode too — your brain will thank you.
-        </p>
-
-        {/* Buttons */}
-        <div className="flex justify-center gap-3">
-          <button
-            onClick={onBack}
-            className="cursor-pointer rounded-xl border border-white/15 bg-white/10 px-7 py-3 text-[0.95rem] font-semibold text-white transition-colors duration-200 hover:bg-white/15"
-          >
-            Back
-          </button>
-
-          <button
-            onClick={onContinue}
-            className="cursor-pointer rounded-xl bg-blue-500 px-7 py-3 text-[0.95rem] font-semibold text-white transition-colors duration-200 hover:bg-blue-400"
-          >
-            Continue Anyway
-          </button>
-        </div>
+        <textarea
+          value={isLocked ? "" : value}
+          onChange={e => !isLocked && onChange(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault()
+              if (!isLocked) onSubmit()
+            }
+          }}
+          placeholder={placeholderText}
+          rows={6}
+          disabled={isLocked}
+          className={`box-border min-h-40 w-full resize-none rounded-2xl border-2 p-4 font-['Fira_Code'] text-base outline-none transition-colors duration-300 ${borderClass} ${bgClass} ${textClass} ${
+            isLocked ? "cursor-not-allowed opacity-80" : "cursor-text"
+          }`}
+        />
       </motion.div>
+
+      {/* Hint area */}
+      {(isWrong || isLocked) && (
+        <div className={`flex flex-col items-end gap-2 ${
+          isMobile ? "w-full" : "w-[40%] shrink-0"
+        }`}>
+          <button
+            onClick={() => setShowHint(prev => !prev)}
+            className={`cursor-pointer border-none bg-transparent p-1 leading-none transition-colors duration-200 ${
+              showHint ? "text-blue-500" : "text-white/50"
+            }`}
+          >
+            <Info size={18} />
+          </button>
+
+          <motion.div
+            initial={false}
+            animate={{
+              opacity: showHint ? 1 : 0,
+              height: showHint ? "auto" : 0
+            }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className={`overflow-hidden ${
+              showHint ? "pointer-events-auto" : "pointer-events-none"
+            } ${isMobile ? "w-full" : "w-full"}`}
+          >
+            <HintBox hint={hint} />
+          </motion.div>
+        </div>
+      )}
+
     </div>
-  );
+  )
 }
 
-export default BreakWarningPopup;
+export default AnswerInput

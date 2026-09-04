@@ -40,7 +40,7 @@ function MenuScreen({
           delay: 0.2,
           ease: "easeOut",
         }}
-        className="relative z-10 flex w-full max-w-[760px] flex-col gap-6 md:flex-row"
+        className="relative z-10 flex w-full max-w-190 flex-col gap-6 md:flex-row"
       >
         <ModeCard
           title="Normal Mode"

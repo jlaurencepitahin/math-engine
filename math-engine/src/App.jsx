@@ -42,7 +42,7 @@ function App() {
     else if (isComplete === "clean") setScreen("practiceCleared")
     else if (isComplete === "retry") setScreen("retry")
     else if (isComplete === "cooldown") setScreen("cooldown")
-  }, [isComplete])
+  }, [isComplete, screen])
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -132,7 +132,7 @@ function App() {
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-170 rounded-3xl border border-white/10 bg-[rgba(30,41,59,0.5)] px-11.5 py-15 text-center shadow-2xl backdrop-blur-xl"
+        className="relative z-10 w-full max-w-170 rounded-3xl border border-white/10 bg-[rgba(30,41,59,0.5)] p-6 shadow-2xl backdrop-blur-sm md:p-11.5"
       >
         {/* Icon */}
         <motion.div
@@ -193,10 +193,10 @@ function App() {
           className="flex justify-center gap-4"
         >
           <button
-            onClick={handleReturnToMenu}
-            className="cursor-pointer rounded-xl border border-white/15 bg-white/10 px-8 py-3 text-base font-semibold text-white transition-colors duration-200 hover:bg-white/15"
+            onClick={() => setShowExitPopup(true)}
+            className="fixed left-0 top-0 z-50 flex w-full cursor-pointer items-center gap-1.5 border-b border-white/10 bg-[rgba(15,23,42,0.8)] px-4 py-3 text-[0.85rem] font-semibold text-white/70 backdrop-blur-sm transition-all duration-200 hover:text-white md:left-5 md:top-5 md:w-auto md:rounded-[10px] md:border md:border-white/10 md:bg-white/5 md:px-4 md:py-2"
           >
-            Menu
+            ← Menu
           </button>
 
           <button
@@ -326,18 +326,9 @@ if (screen === "cooldown") {
 }
 
   return (
-  <div className="relative flex h-screen w-screen items-center justify-center bg-primary p-6">
+  <div className="relative flex min-h-screen w-screen items-start justify-center bg-primary p-4 py-8 md:items-center md:p-6">
     <MathBackground />
 
-    {/* Exit button */}
-    <button
-      onClick={() => setShowExitPopup(true)}
-      className="fixed left-5 top-5 z-50 flex cursor-pointer items-center gap-1.5 rounded-[10px] border border-white/10 bg-white/5 px-4 py-2 text-[0.85rem] font-semibold text-white/50 transition-all duration-200 hover:bg-white/10 hover:text-white"
-    >
-      ← Menu
-    </button>
-
-    {/* Exit confirmation popup */}
     {showExitPopup && (
       <ExitConfirmPopup
         score={score}
@@ -347,14 +338,24 @@ if (screen === "cooldown") {
       />
     )}
 
-    <motion.div className="relative z-10 w-full max-w-170 rounded-3xl border border-white/10 bg-[rgba(30,41,59,0.5)] p-11.5 shadow-2xl backdrop-blur-sm">
+    <motion.div
+      className="relative z-10 w-full max-w-170 rounded-3xl border border-white/10 bg-[rgba(30,41,59,0.5)] p-6 shadow-2xl backdrop-blur-sm md:p-11.5"
+    >
+      {/* Menu button inside card */}
+      <div className="mb-4 flex justify-start">
+        <button
+          onClick={() => setShowExitPopup(true)}
+          className="flex cursor-pointer items-center gap-1.5 rounded-[10px] border border-white/10 bg-white/5 px-4 py-2 text-[0.85rem] font-semibold text-white/50 transition-all duration-200 hover:bg-white/10 hover:text-white"
+        >
+          ← Menu
+        </button>
+      </div>
+
       <ScoreBar
         score={score}
-        problemIndex={
-          isPracticeMode
-            ? practiceIndex
-            : problems.findIndex((p) => p.id === currentProblem.id)
-        }
+        problemIndex={isPracticeMode
+          ? practiceIndex
+          : problems.findIndex(p => p.id === currentProblem.id)}
         stepIndex={stepIndex}
         totalSteps={currentProblem.steps.length}
         scoreDelta={scoreDelta}
@@ -383,10 +384,8 @@ if (screen === "cooldown") {
           className="mt-4 rounded-xl border border-red-500/20 bg-red-500/10 px-6 py-3 text-center"
         >
           <p className="mb-3 text-[0.9rem] font-medium text-red-500">
-            ❌ Maximum attempts reached. This problem has been added to your
-            practice queue.
+            ❌ Maximum attempts reached. This problem has been added to your practice queue.
           </p>
-
           <button
             onClick={handleQuit}
             className="cursor-pointer rounded-[10px] border border-red-500/30 bg-red-500/15 px-6 py-2 text-[0.85rem] font-semibold text-red-500 transition-colors duration-200 hover:bg-red-500/25"
