@@ -14,7 +14,7 @@ function MenuScreen({
   const hasPracticeProblems = wrongProblemsCount > 0;
 
   return (
-    <div className="relative flex h-screen w-screen flex-col items-center justify-center gap-12 bg-primary px-6 py-10">
+    <div className="relative flex min-h-screen w-screen flex-col items-center justify-center gap-12 bg-primary px-6 py-10 overflow-hidden">
       <MathBackground />
 
       <motion.div
